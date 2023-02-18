@@ -34,7 +34,7 @@
 	#size-cells = <2>;
 
 	chosen {
-		bootargs = "log_buf_len=256K earlycon=msm_geni_serial,0x98c000 rcupdate.rcu_expedited=1 rcu_nocbs=0-7 kpti=off";
+		bootargs = "log_buf_len=256K rcupdate.rcu_expedited=1 rcu_nocbs=0-7 kpti=off";
 	};
 
 	memory { device_type = "memory"; reg = <0 0 0 0>; };
@@ -386,6 +386,31 @@
 		reg = <0x0 0x8f000000 0x0 0x10000000>;
 	};
 
+	hyp_reserved_mem: qheebsp_dbg_vm_hyp_region@d0000000 {
+		no-map;
+		//reg = <0x0 0xd0000000 0x0 0x800000>;
+	};
+
+	pil_trustedvm_mem: pil_trustedvm_region@d0800000 {
+		no-map;
+		//reg = <0x0 0xd0800000 0x0 0x76f7000>;
+	};
+
+	qrtr_shbuf: qrtr-shmem {
+		no-map;
+		//reg = <0x0 0xd7ef7000 0x0 0x9000>;
+	};
+
+	chan0_shbuf: neuron_block@0 {
+		no-map;
+		//reg = <0x0 0xd7f00000 0x0 0x80000>;
+	};
+
+	chan1_shbuf: neuron_block@1 {
+		no-map;
+		//reg = <0x0 0xd7f80000 0x0 0x80000>;
+	};
+
 	removed_mem: removed_region@d8800000 {
 		no-map;
 		reg = <0x0 0xd8800000 0x0 0xA000000>;
@@ -480,14 +505,6 @@
 		size = <0x0 0x1000000>;
 	};
 
-	audio_cma_mem: audio_cma_region {
-		compatible = "shared-dma-pool";
-		alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
-		reusable;
-		alignment = <0x0 0x400000>;
-		size = <0x0 0x1C00000>;
-	};
-
 	splash_memory:splash_region {
 		reg = <0x0 0xea600000 0x0 0x02300000>;
 		label = "cont_splash_region";
@@ -524,6 +541,15 @@
 		alignment = <0x0 0x100000>;
 		size = <0x0 0x800000>;
 	};
+
+    //non_secure_display_memory: non_secure_display_region {
+    //	compatible = "shared-dma-pool";
+    //	alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+    //	reusable;
+    //	alignment = <0x0 0x400000>;
+    //	size = <0x0 0x6400000>;
+    //};
+
 };
 
 &soc {
@@ -2165,6 +2191,7 @@
 			class = "message-queue";
 			direction = "receive";
 			max-size = <0 65536>;
+			//shared-buffer = <&chan0_shbuf>;
 			qcom,primary;
 			haven-label = <1>;
 			peer-name = <2>;
@@ -2176,6 +2203,7 @@
 			class = "message-queue";
 			direction = "send";
 			max-size = <0 65536>;
+			//shared-buffer = <&chan1_shbuf>;
 			qcom,primary;
 			haven-label = <2>;
 			peer-name = <2>;
@@ -2200,6 +2228,7 @@
 		qcom,master;
 		haven-label = <3>;
 		peer-name = <2>;
+		//shared-buffer = <&qrtr_shbuf>;
 	};
 
 	jtag_mm0: jtagmm@7040000 {
@@ -4625,7 +4654,6 @@
 		qcom,ipa-holb-monitor-max-cnt-11ad = <10>;
 		qcom,tx-wrapper-cache-max-size = <400>;
 		qcom,ipa-gpi-event-rp-ddr;
-		qcom,register-collection-on-crash;
 		clock-names = "core_clk";
 		clocks = <&clock_rpmh RPMH_IPA_CLK>;
 		qcom,interconnect,num-cases = <5>;
@@ -5169,6 +5197,7 @@
 		status = "ok";
 		qcom,pas-id = <28>;
 		qcom,firmware-name = "trustedvm";
+		//memory-region = <&pil_trustedvm_mem>;
 	};
 
 	qcom,guestvm_loader {

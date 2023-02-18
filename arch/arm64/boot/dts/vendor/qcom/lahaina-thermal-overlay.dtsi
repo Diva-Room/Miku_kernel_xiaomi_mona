@@ -35,8 +35,7 @@
 	};
 
 
-/*
-	pm8350b-bcl-lvl0 {
+/*	pm8350b-bcl-lvl0 {
 		cooling-maps {
 			vbat_modem_l3 {
 				trip = <&b_bcl_lvl0>;
@@ -89,7 +88,6 @@
 		};
 	};
 */
-
 	pm8350b-bcl-lvl2 {
 		cooling-maps {
 			vbat_gpu2 {

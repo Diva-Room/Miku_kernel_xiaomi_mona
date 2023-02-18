@@ -8,6 +8,7 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		wakeup-parent = <&pdc>;
+		qcom,tlmm-mpm-wake-control;
 
 		qupv3_se0_i2c_pins: qupv3_se0_i2c_pins {
 			qupv3_se0_i2c_active: qupv3_se0_i2c_active {
@@ -2232,7 +2233,6 @@
 					output-high;
 				};
 			};
-
 			pri_tdm_clk_low_active: pri_tdm_clk_low_active {
 				mux {
 					pins = "gpio97";
