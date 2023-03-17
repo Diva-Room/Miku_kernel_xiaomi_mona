@@ -94,34 +94,4 @@
 		};
 	};
 
-        md_mode_ctrl_irq {
-		ant3_ctrl_irq: ant3_ctrl_irq {
-			mux {
-				pins = "gpio129";
-				function = "gpio";
-			};
-
-			config {
-				pins = "gpio129";
-				drive-strength = <2>;
-				bias-disable;
-				input-enable;
-			};
-		};
-
-		ant5_ctrl_irq: ant5_ctrl_irq {
-			mux {
-				pins = "gpio136";
-				function = "gpio";
-			};
-
-			config {
-				pins = "gpio136";
-				drive-strength = <2>;
-				bias-disable;
-				input-enable;
-			};
-		};
-	};
-
 };

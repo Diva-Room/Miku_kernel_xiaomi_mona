@@ -180,7 +180,7 @@
 		aw8622x_vib_prctmode = < 0x2D 0x3E 0x3F >;
 		/*---------------------common_dts_info---------------------*/
 		vib_effect_id_boundary = < 10 >;
-		vib_effect_max = < 170 >;
+		vib_effect_max = < 193 >;
 		vib_rtp_time = < 20 20 20 20 40 20 20 20 20 20
 				 20 20 20 20 20 20 20 20 20 20
 				 20 24058 11520 14770 40341 22060 16745 15166 10590 17260
@@ -724,6 +724,40 @@
 
 &qupv3_se13_i2c {
 	status = "disabled";
+};
+
+&qupv3_se13_spi {
+	status = "ok";
+	qcom,rt;
+	pinctrl-1 = <&qupv3_se13_spi_sleep &qupv3_se13_spi_sleep_cs>;
+	xiaomi_ts_touch@0 {
+		compatible = "xiaomi,ts-spi";
+		reg = <0>;
+		spi-max-frequency = <5000000>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <81 0x2802>;
+		goodix,irq-gpio = <&tlmm 81 0x2802>;
+		goodix,reset-gpio = <&tlmm 105 0x00>;
+		goodix,irq-flags = <2>;
+		goodix,panel-max-x = <10800>;
+		goodix,panel-max-y = <24000>;
+		goodix,panel-max-w = <255>;
+		goodix,panel-max-p = <4096>;
+		goodix,firmware-name = "goodix_firmware_l9.bin";
+		goodix,config-name = "goodix_cfg_group_l9.bin";
+
+		goodix,avdd-name = "avdd";
+		goodix,iovdd-name = "vdd";
+		avdd-supply = <&L7C>;
+		vdd-supply = <&L2C>;
+		focaltech,avdd-name = "avdd";
+		focaltech,iovdd-name = "iovdd";
+		iovdd-supply = <&L2C>;
+		focaltech,reset-gpio = <&tlmm 105 0x00>;
+		focaltech,irq-gpio = <&tlmm 81 0x2808>;
+		focaltech,max-touch-number = <10>;
+		focaltech,display-coords =  <0 0 10800 24000>;
+	};
 };
 
 &tlmm {
